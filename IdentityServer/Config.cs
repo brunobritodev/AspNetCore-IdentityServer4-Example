@@ -5,7 +5,7 @@ using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace IdentityServerWithMvc
+namespace IdentityServer
 {
     public class Config
     {
@@ -30,12 +30,12 @@ namespace IdentityServerWithMvc
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.Code,
                     RequireConsent = false,
 
-                    RedirectUris = { "http://localhost:5001/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
-
+                    RedirectUris = { "https://localhost:5001/signin-oidc"  },
+                    PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
+                    ClientSecrets = {new Secret("super-secret".ToSha256(),"mvc-secret") },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -60,7 +60,7 @@ namespace IdentityServerWithMvc
 
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "Bruno"),
+                        new Claim(JwtClaimTypes.Name, "Bruno"),
                         new Claim(JwtClaimTypes.GivenName, "Bruno Brito"),
                         new Claim(JwtClaimTypes.FamilyName, "Brito"),
                         new Claim(JwtClaimTypes.Email, "bhdebrito@gmail.com"),
@@ -78,7 +78,7 @@ namespace IdentityServerWithMvc
 
                     Claims = new List<Claim>
                     {
-                        new Claim("name", "JP"),
+                        new Claim(JwtClaimTypes.Name, "JP"),
                         new Claim(JwtClaimTypes.GivenName, "Joao Pedro"),
                         new Claim(JwtClaimTypes.FamilyName, "Silva"),
                         new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
